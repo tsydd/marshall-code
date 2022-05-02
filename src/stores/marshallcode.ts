@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import {
   CabinetType,
+  codeApi,
   DelayType,
   DeviceInformation,
   ModulationType,
@@ -20,12 +21,19 @@ interface State {
   currentPreset: Preset;
 }
 
+async function sleep(duration: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, duration);
+  });
+}
+
 export const useMarshallCodeStore = defineStore('marshallCode', {
   state: (): State => ({
     connected: false,
-
+    deviceInfo: undefined,
+    bluetoothAddress: undefined,
+    bluetoothVersion: undefined,
     ampPresets: [],
-
     currentPreset: {
       gain: 0,
       bass: 0,
@@ -75,14 +83,51 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
 
       presence: 0,
       resonance: 0,
-    } as Preset,
+    },
   }),
 
   getters: {},
 
   actions: {
-    setConnected(connected: boolean) {
-      this.connected = connected;
+    async init() {
+      codeApi.debug = true;
+      codeApi.onConnected = async (connected) => {
+        this.connected = connected;
+        if (connected) {
+          codeApi.requestCurrentPreset();
+          await sleep(50);
+          codeApi.requestDeviceInfo();
+          await sleep(50);
+          codeApi.requestBluetoothVersion();
+          await sleep(50);
+          codeApi.requestBluetoothAddress();
+        }
+        for (let i = 0; i < 10; i++) {
+          codeApi.requestPreset(i);
+        }
+      };
+      codeApi.onPresetNumberChanged = () => {
+        codeApi.requestCurrentPreset();
+      };
+      codeApi.onCurrentPresetReceived = (preset) => {
+        this.currentPreset = preset;
+      };
+      codeApi.onPresetModified = (changes: Partial<Preset>) => {
+        Object.assign(this.currentPreset, changes);
+      };
+      codeApi.onPresetReceived = (preset) => {
+        this.ampPresets[preset.number as number] = preset;
+      };
+      codeApi.onDeviceInfo = (info) => {
+        this.deviceInfo = info;
+      };
+      codeApi.onBluetoothAddress = (address) => {
+        this.bluetoothAddress = address.address;
+      };
+      codeApi.onBluetoothVersion = (version) => {
+        this.bluetoothVersion = version.version;
+      };
+      await codeApi.init();
     },
   },
 });
