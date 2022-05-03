@@ -1,6 +1,8 @@
 <template>
   <div class="row items-center">
-    <div>Delay</div>
+    <div>
+      <img alt="Delay" src="~assets/delay.svg" width="25" height="25" />
+    </div>
     <q-select
       :model-value="modelValue.delayType"
       :options="Object.values(DelayType)"
