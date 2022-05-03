@@ -1,7 +1,13 @@
 <template>
   <q-page>
-    <PresetEditor :model-value="currentPreset" @change="onChange" />
-    <LocalPatches />
+    <div class="row">
+      <div>
+        <PresetEditor :model-value="currentPreset" @change="onChange" />
+      </div>
+      <div>
+        <LocalPatches />
+      </div>
+    </div>
   </q-page>
 </template>
 
