@@ -1,6 +1,13 @@
 <template>
   <div class="row items-center">
-    <div>Modulation</div>
+    <div>
+      <img
+        alt="Modulation"
+        src="~assets/modulation.svg"
+        width="25"
+        height="25"
+      />
+    </div>
     <q-select
       :model-value="modelValue.modulationType"
       :options="Object.values(ModulationType)"

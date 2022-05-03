@@ -1,7 +1,7 @@
 <template>
   <div class="row items-center">
     <div>
-      <img alt="pedal" src="~assets/pedal.svg" width="25" height="25" />
+      <img alt="Pedal" src="~assets/pedal.svg" width="25" height="25" />
     </div>
     <q-select
       :model-value="modelValue.pedalType"
