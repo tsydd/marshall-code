@@ -15,6 +15,9 @@
           {{ preset.name }}
         </q-item-label>
       </q-item-section>
+      <q-item-section>
+        <PresetDetailsCompact :model-value="preset" />
+      </q-item-section>
     </q-item>
   </q-list>
 </template>
@@ -22,6 +25,7 @@
 <script lang="ts" setup>
 import { useMarshallCodeStore } from 'stores/marshallcode';
 import { computed } from 'vue';
+import PresetDetailsCompact from 'components/PresetDetailsCompact.vue';
 
 const store = useMarshallCodeStore();
 
