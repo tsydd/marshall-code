@@ -2,9 +2,10 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title> Marshall CODE </q-toolbar-title>
-
-        <CodeStatusBadge />
+        <q-toolbar-title>
+          Marshall CODE
+          <CodeStatusBadge />
+        </q-toolbar-title>
       </q-toolbar>
     </q-header>
 

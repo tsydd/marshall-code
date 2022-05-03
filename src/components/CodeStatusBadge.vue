@@ -1,6 +1,6 @@
 <template>
-  <q-badge :color="connected ? 'green' : 'red'">
-    CODE: {{ connected ? 'Connected' : 'Disconnected' }}
+  <q-badge :color="connected ? 'green' : 'red'" align="top">
+    {{ connected ? 'Connected' : 'Disconnected' }}
   </q-badge>
 </template>
 
