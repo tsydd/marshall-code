@@ -4,7 +4,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: 'Set up Cloud SDK'
+      - name: 'Authenticate'
         uses: 'google-github-actions/auth@v0'
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
@@ -13,4 +13,4 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v0'
 
       - name: 'Use gcloud CLI'
-        run: 'gsutil ls'
+        run: 'gsutil ls ${{ secrets.STORAGE }}'
