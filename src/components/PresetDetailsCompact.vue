@@ -10,14 +10,14 @@
 
     <div class="column">
       <div class="row">
-        <SmallKnob :model-value="modelValue.bass" />
-        <SmallKnob :model-value="modelValue.middle" />
-        <SmallKnob :model-value="modelValue.treble" />
+        <SmallKnob :model-value="modelValue.bass" tooltip="Bass" />
+        <SmallKnob :model-value="modelValue.middle" tooltip="Middle" />
+        <SmallKnob :model-value="modelValue.treble" tooltip="Treble" />
       </div>
       <div class="row">
-        <SmallKnob :model-value="modelValue.gain" />
-        <SmallKnob :model-value="modelValue.volume" />
-        <SmallKnob :model-value="modelValue.gate" />
+        <SmallKnob :model-value="modelValue.gain" tooltip="Gain" />
+        <SmallKnob :model-value="modelValue.volume" tooltip="Volume" />
+        <SmallKnob :model-value="modelValue.gate" tooltip="Gate" />
       </div>
     </div>
 
