@@ -1,0 +1,37 @@
+name: Publish to GCP
+on:
+  push:
+    branches:
+      - master
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+
+      - name: 'Setup Node.js'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: 'Install dependencies'
+        run: yarn install
+
+      - name: 'Build'
+        run: yarn build
+
+      - name: 'Authenticate'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 'Remove previous version'
+        run: 'gsutil rm -r ${{ secrets.STORAGE }}/**'
+
+      - name: 'Upload files'
+        run: 'gsutil cp -r dist/spa/. ${{ secrets.STORAGE }}'
