@@ -130,9 +130,13 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
       await codeApi.init();
     },
 
-    async modifyPreset(changes: Partial<Preset>) {
+    modifyPreset(changes: Partial<Preset>) {
       codeApi.modifyPreset(changes);
       Object.assign(this.currentPreset, changes);
+    },
+
+    switchToPreset(number: number) {
+      codeApi.switchToPreset(number);
     },
   },
 });

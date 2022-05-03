@@ -6,6 +6,7 @@
       clickable
       :active="preset.number === currentPresetNumber"
       active-class="bg-blue-grey-2"
+      @click="() => switchToPreset(preset.number)"
     >
       <q-item-section avatar>
         <q-item-label>#{{ preset.number }}</q-item-label>
@@ -31,4 +32,5 @@ const store = useMarshallCodeStore();
 
 const presets = computed(() => store.ampPresets);
 const currentPresetNumber = computed(() => store.currentPreset.number);
+const switchToPreset = store.switchToPreset;
 </script>
