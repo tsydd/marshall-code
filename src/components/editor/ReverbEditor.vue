@@ -1,6 +1,8 @@
 <template>
   <div class="row items-center">
-    <div>Reverb</div>
+    <div>
+      <img alt="Reverb" src="~assets/reverb.svg" width="25" height="25" />
+    </div>
     <q-select
       :model-value="modelValue.reverbType"
       :options="Object.values(ReverbType)"
