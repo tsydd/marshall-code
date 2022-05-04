@@ -164,7 +164,7 @@ import {
   distortionModeByCode,
   distortionModeToCode,
 } from 'marshall-code-api/lib/converters';
-import Knob from 'components/Knob.vue';
+import Knob from 'components/editor/Knob.vue';
 
 type Pedal = Pick<
   Preset,

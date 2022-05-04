@@ -53,7 +53,7 @@
 <script lang="ts" setup>
 import { computed, PropType } from 'vue';
 import { DelayType, Preset } from 'marshall-code-api';
-import Knob from 'components/Knob.vue';
+import Knob from 'components/editor/Knob.vue';
 
 type Delay = Pick<
   Preset,

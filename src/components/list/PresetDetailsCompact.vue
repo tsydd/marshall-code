@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
 import { Preset } from 'marshall-code-api';
-import SmallKnob from 'components/SmallKnob.vue';
+import SmallKnob from 'components/list/SmallKnob.vue';
 
 defineProps({
   modelValue: {

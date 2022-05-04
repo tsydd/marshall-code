@@ -26,7 +26,7 @@
 <script lang="ts" setup>
 import { useMarshallCodeStore } from 'stores/marshallcode';
 import { computed } from 'vue';
-import PresetDetailsCompact from 'components/PresetDetailsCompact.vue';
+import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
 
 const store = useMarshallCodeStore();
 

@@ -54,7 +54,7 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
 import { Preset } from 'marshall-code-api';
-import Knob from 'components/Knob.vue';
+import Knob from 'components/editor/Knob.vue';
 
 type Knobs = Pick<
   Preset,

@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
 import { Preset, ReverbType } from 'marshall-code-api';
-import Knob from 'components/Knob.vue';
+import Knob from 'components/editor/Knob.vue';
 
 type Reverb = Pick<
   Preset,

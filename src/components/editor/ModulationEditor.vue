@@ -190,14 +190,14 @@
 import { PropType } from 'vue';
 import {
   ChorusMode,
+  converters,
   FlangerMode,
   ModulationType,
   PhaserMode,
   Preset,
   TremoloMode,
 } from 'marshall-code-api';
-import Knob from 'components/Knob.vue';
-import { converters } from 'marshall-code-api';
+import Knob from 'components/editor/Knob.vue';
 
 type Modulation = Pick<
   Preset,
