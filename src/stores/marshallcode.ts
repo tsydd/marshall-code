@@ -102,7 +102,11 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
           await sleep(50);
           codeApi.requestBluetoothAddress();
         }
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 100; i++) {
+          // CODE fails to load all patches at once
+          if (i > 0 && i % 5 == 0) {
+            await sleep(30);
+          }
           codeApi.requestPreset(i);
         }
       };
