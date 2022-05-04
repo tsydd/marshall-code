@@ -11,6 +11,7 @@ import {
   Preset,
   ReverbType,
 } from 'marshall-code-api';
+import { LocalStorage } from 'quasar';
 
 interface State {
   connected: boolean;
@@ -33,7 +34,7 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
     deviceInfo: undefined,
     bluetoothAddress: undefined,
     bluetoothVersion: undefined,
-    ampPresets: [],
+    ampPresets: LocalStorage.getItem('presets') ?? [],
     currentPreset: {
       gain: 0,
       bass: 0,
@@ -90,6 +91,7 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
 
   actions: {
     async init() {
+      const storePresets = this.ampPresets;
       codeApi.debug = true;
       codeApi.onConnected = async (connected) => {
         this.connected = connected;
@@ -109,6 +111,8 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
           }
           codeApi.requestPreset(i);
         }
+        await sleep(100);
+        LocalStorage.set('presets', storePresets);
       };
       codeApi.onPresetNumberChanged = () => {
         codeApi.requestCurrentPreset();
