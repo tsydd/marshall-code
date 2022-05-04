@@ -1,13 +1,17 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="hHh Lpr fFf">
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title>
           Marshall CODE
-          <CodeStatusBadge />
+          <DeviceStatusBadge />
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
+
+    <q-drawer :model-value="true" :width="450">
+      <DevicePresetEditor />
+    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -36,5 +40,6 @@
 </template>
 
 <script lang="ts" setup>
-import CodeStatusBadge from 'components/CodeStatusBadge.vue';
+import DeviceStatusBadge from 'components/DeviceStatusBadge.vue';
+import DevicePresetEditor from 'components/editor/DevicePresetEditor.vue';
 </script>

@@ -9,6 +9,5 @@ import { computed } from 'vue';
 import { useMarshallCodeStore } from 'stores/marshallcode';
 
 const store = useMarshallCodeStore();
-
 const connected = computed(() => store.connected);
 </script>
