@@ -1,8 +1,6 @@
 <template>
-  <div class="row items-center">
-    <div>
-      <img alt="Pedal" src="~assets/pedal.svg" width="25" height="25" />
-    </div>
+  <div class="row items-center q-gutter-sm q-pa-sm">
+    <img alt="Pedal" src="~assets/pedal.svg" width="25" height="25"/>
     <q-select
       :model-value="modelValue.pedalType"
       :options="Object.values(PedalType)"
@@ -11,6 +9,7 @@
       dense
       options-dense
       hide-bottom-space
+      class="col"
       @update:model-value="(value) => onChange({ pedalType: value })"
     />
     <q-toggle
@@ -18,7 +17,7 @@
       @update:model-value="(value) => onChange({ pedalEnabled: value })"
     />
   </div>
-  <div class="row">
+  <div class="row items-end justify-around">
     <template v-if="modelValue.pedalType === PedalType.COMPRESSOR">
       <Knob
         :model-value="modelValue.pedalParam1 / 10"

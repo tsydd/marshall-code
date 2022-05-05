@@ -1,8 +1,6 @@
 <template>
-  <div class="row items-center">
-    <div>
-      <img alt="preAmp" src="~assets/pre-amp.svg" width="25" height="25" />
-    </div>
+  <div class="row items-center q-gutter-sm q-pa-sm">
+    <img alt="preAmp" src="~assets/pre-amp.svg" width="25" height="25" />
     <q-select
       :model-value="modelValue.preAmpType"
       :options="Object.values(PreAmpType)"
@@ -11,6 +9,7 @@
       dense
       options-dense
       hide-bottom-space
+      class="col"
       @update:model-value="(value) => onChange({ preAmpType: value })"
     />
     <q-toggle

@@ -1,13 +1,11 @@
 <template>
-  <div class="row items-center">
-    <div>
-      <img
-        alt="Modulation"
-        src="~assets/modulation.svg"
-        width="25"
-        height="25"
-      />
-    </div>
+  <div class="row items-center q-gutter-sm q-pa-sm">
+    <img
+      alt="Modulation"
+      src="~assets/modulation.svg"
+      width="25"
+      height="25"
+    />
     <q-select
       :model-value="modelValue.modulationType"
       :options="Object.values(ModulationType)"
@@ -16,6 +14,7 @@
       dense
       options-dense
       hide-bottom-space
+      class="col"
       @update:model-value="(value) => onChange({ modulationType: value })"
     />
     <q-toggle
@@ -23,7 +22,7 @@
       @update:model-value="(value) => onChange({ modulationEnabled: value })"
     />
   </div>
-  <div class="row">
+  <div class="row items-center justify-around">
     <template v-if="modelValue.modulationType === ModulationType.CHORUS">
       <q-select
         :model-value="converters.chorusModeByCode(modelValue.modulationParam3)"

@@ -1,8 +1,6 @@
 <template>
-  <div class="row items-center">
-    <div>
-      <img alt="Delay" src="~assets/delay.svg" width="25" height="25" />
-    </div>
+  <div class="row items-center q-gutter-sm q-pa-sm">
+    <img alt="Delay" src="~assets/delay.svg" width="25" height="25" />
     <q-select
       :model-value="modelValue.delayType"
       :options="Object.values(DelayType)"
@@ -11,6 +9,7 @@
       dense
       options-dense
       hide-bottom-space
+      class="col"
       @update:model-value="(value) => onChange({ delayType: value })"
     />
     <q-toggle
@@ -18,7 +17,7 @@
       @update:model-value="(value) => onChange({ delayEnabled: value })"
     />
   </div>
-  <div class="row">
+  <div class="row items-center justify-around">
     <Knob :model-value="time" :max="4000" :step="1">Time</Knob>
     <template v-if="modelValue.delayType === DelayType.STUDIO">
       <Knob :model-value="modelValue.delayParam2 / 10">Feedback</Knob>

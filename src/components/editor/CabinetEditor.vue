@@ -1,8 +1,6 @@
 <template>
-  <div class="row items-center">
-    <div>
-      <img alt="cabinet" src="~assets/cabinet.svg" width="25" height="25" />
-    </div>
+  <div class="row items-center q-pa-sm q-gutter-sm q-pa-sm">
+    <img alt="cabinet" src="~assets/cabinet.svg" width="25" height="25" />
     <q-select
       :model-value="modelValue.cabinetType"
       :options="Object.values(CabinetType)"
@@ -11,6 +9,7 @@
       dense
       options-dense
       hide-bottom-space
+      class="col"
       @update:model-value="(value) => onChange({ cabinetType: value })"
     />
     <q-toggle

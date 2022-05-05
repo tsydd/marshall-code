@@ -1,8 +1,6 @@
 <template>
-  <div class="row items-center">
-    <div>
-      <img alt="Reverb" src="~assets/reverb.svg" width="25" height="25" />
-    </div>
+  <div class="row items-center q-gutter-sm q-pa-sm">
+    <img alt="Reverb" src="~assets/reverb.svg" width="25" height="25" />
     <q-select
       :model-value="modelValue.reverbType"
       :options="Object.values(ReverbType)"
@@ -11,6 +9,7 @@
       dense
       options-dense
       hide-bottom-space
+      class="col"
       @update:model-value="(value) => onChange({ reverbType: value })"
     />
     <q-toggle
@@ -18,7 +17,7 @@
       @update:model-value="(value) => onChange({ reverbEnabled: value })"
     />
   </div>
-  <div class="row">
+  <div class="row items-center justify-around">
     <Knob :model-value="modelValue.reverbParam1 / 10">Decay</Knob>
     <Knob :model-value="modelValue.reverbParam2 / 10">Pre-delay</Knob>
     <Knob :model-value="modelValue.reverbParam3 / 10">Tone</Knob>
