@@ -1,0 +1,58 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- description: Generated server url
+  url: http://localhost:8080
+paths:
+  /api/presets:
+    get:
+      operationId: findPresets
+      parameters:
+      - in: query
+        name: songName
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: artist
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PresetListItem'
+          description: OK
+      tags:
+      - preset-controller
+components:
+  schemas:
+    PresetListItem:
+      type: object
+      properties:
+        artist:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        preset:
+          type: array
+          items:
+            type: integer
+            format: int32
+        songName:
+          type: string
+      required:
+      - artist
+      - id
+      - name
+      - preset
+      - songName
