@@ -1,10 +1,28 @@
-name: Publish to GCP
+name: Publish to GCR
 on:
   push:
     branches:
       - master
 jobs:
-  publish:
+  increase-version:
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.bump-version.outputs.newTag }}
+
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+
+      - id: bump-version
+        name: 'Automated Version Bump'
+        uses: 'phips28/gh-action-bump-version@master'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build:
+    needs: increase-version
+
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
@@ -22,16 +40,45 @@ jobs:
       - name: 'Build'
         run: yarn build
 
-      - name: 'Authenticate'
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: |
+            dist
+
+  publish:
+    needs:
+      - increase-version
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+
+      - id: 'auth'
+        name: 'Authenticate'
         uses: 'google-github-actions/auth@v0'
         with:
+          token_format: 'access_token'
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v0'
+      - name: Login to GCR
+        uses: docker/login-action@v2
+        with:
+          registry: '${{ secrets.DOCKER_HOST }}'
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
 
-      - name: 'Remove previous version'
-        run: 'gsutil rm -r ${{ secrets.STORAGE }}/**'
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      - name: 'Upload files'
-        run: 'gsutil cp -r dist/spa/. ${{ secrets.STORAGE }}'
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: '${{ secrets.DOCKER_HOST }}/${{ secrets.GCP_PROJECT_ID }}/marshall-code-frontend:${{ needs.increase-version.outputs.version }}'
