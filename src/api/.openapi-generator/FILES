@@ -1,6 +1,6 @@
-apis/PresetControllerApi.ts
+apis/PresetResourceApi.ts
 apis/index.ts
 index.ts
-models/PresetListItem.ts
+models/PresetCompact.ts
 models/index.ts
 runtime.ts

@@ -1,7 +1,8 @@
 <template>
   <div class="row">
+    <q-input v-model="filter" label="Filter" dense outlined debounce="100" />
     <q-input v-model="artist" label="Artist" dense outlined debounce="100" />
-    <q-input v-model="songName" label="Song" dense outlined debounce="100" />
+    <q-input v-model="song" label="Song" dense outlined debounce="100" />
   </div>
   <q-list bordered separator>
     <q-item
@@ -26,7 +27,7 @@
       </q-item-section>
       <q-item-section class="col">
         <q-item-label>
-          {{ preset.songName }}
+          {{ preset.song }}
         </q-item-label>
       </q-item-section>
       <q-item-section>
@@ -39,29 +40,31 @@
 <script lang="ts" setup async>
 import { presetApi } from 'src/api/clients';
 import { onMounted, ref, watch } from 'vue';
-import { PresetListItem } from 'src/api';
+import { PresetCompact } from 'src/api';
 import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
 import { Preset } from 'marshall-code-api';
 import { presetFromArray } from 'marshall-code-api/lib/converters';
 import { useMarshallCodeStore } from 'stores/marshallcode';
 
-interface ExtendedPresetListItem extends PresetListItem {
+interface ExtendedPresetListItem extends PresetCompact {
   parsedPatch: Preset;
 }
 
 const store = useMarshallCodeStore();
 
+const filter = ref<string>();
 const artist = ref<string>();
-const songName = ref<string>();
+const song = ref<string>();
 const presets = ref<ExtendedPresetListItem[]>([]);
 
 async function updateFilter() {
-  const presetsFromServer = await presetApi.findPresets(
-    songName.value,
-    artist.value
+  const presetsFromServer = await presetApi.findByFilter(
+    artist.value,
+    filter.value,
+    song.value
   );
   presets.value = presetsFromServer.map((preset) => {
-    const parsedPreset = presetFromArray(new Uint8Array(preset.preset));
+    const parsedPreset = presetFromArray(new Uint8Array(preset.patch));
     return Object.assign(
       { parsedPatch: parsedPreset },
       preset
@@ -69,7 +72,7 @@ async function updateFilter() {
   });
 }
 
-watch([artist, songName], () => {
+watch([filter, artist, song], () => {
   updateFilter();
 });
 

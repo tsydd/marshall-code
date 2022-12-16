@@ -1,5 +1,5 @@
 import { Configuration, ConfigurationParameters } from 'src/api/runtime';
-import { PresetControllerApi } from 'src/api/apis';
+import { PresetResourceApi } from 'src/api/apis';
 
 const parameters: ConfigurationParameters = {
   basePath:
@@ -11,4 +11,4 @@ const parameters: ConfigurationParameters = {
 
 const configuration = new Configuration(parameters);
 
-export const presetApi = new PresetControllerApi(configuration);
+export const presetApi = new PresetResourceApi(configuration);
