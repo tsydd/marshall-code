@@ -21,6 +21,10 @@ const routes: RouteRecordRaw[] = [
         path: 'db',
         component: () => import('pages/PresetDatabasePage.vue'),
       },
+      {
+        path: 'recent',
+        component: () => import('pages/RecentPresetsPage.vue'),
+      },
     ],
   },
 
