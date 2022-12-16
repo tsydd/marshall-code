@@ -14,14 +14,17 @@ const routes: RouteRecordRaw[] = [
         redirect: '/presets/device',
       },
       {
+        name: 'devicePresets',
         path: 'device',
         component: () => import('pages/DevicePresetsPage.vue'),
       },
       {
-        path: 'db',
-        component: () => import('pages/PresetDatabasePage.vue'),
+        name: 'searchPresets',
+        path: 'search',
+        component: () => import('pages/SearchPresetsPage.vue'),
       },
       {
+        name: 'recentPresets',
         path: 'recent',
         component: () => import('pages/RecentPresetsPage.vue'),
       },

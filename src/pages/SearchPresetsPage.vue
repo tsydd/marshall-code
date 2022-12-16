@@ -8,5 +8,5 @@
 </template>
 
 <script lang="ts" setup>
-import ServerPatches from 'components/list/ServerPatches.vue';
+import ServerPatches from 'components/list/SearchPatches.vue';
 </script>

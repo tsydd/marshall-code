@@ -1,15 +1,25 @@
 <template>
-  <q-layout view="hHh Lpr fFf">
+  <q-layout view="lHh Lpr fFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title>
+        <ToolbarRouterLink label="Device" :to="{ name: 'devicePresets' }" />
+        <ToolbarRouterLink label="Search" :to="{ name: 'searchPresets' }" />
+        <ToolbarRouterLink label="Recent" :to="{ name: 'recentPresets' }" />
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      :model-value="true"
+      :width="450"
+      :mini-to-overlay="false"
+      show-if-above
+    >
+      <q-toolbar class="bg-blue-8">
+        <q-toolbar-title class="text-white">
           Marshall CODE
           <DeviceStatusBadge />
         </q-toolbar-title>
       </q-toolbar>
-    </q-header>
-
-    <q-drawer :model-value="true" :width="450">
       <DevicePresetEditor />
     </q-drawer>
 
@@ -20,7 +30,7 @@
       <q-toolbar>
         <q-btn
           flat
-          dense
+          stretch
           icon="mdi-bug-check"
           label="Report issue"
           type="a"
@@ -28,7 +38,7 @@
         ></q-btn>
         <q-btn
           flat
-          dense
+          stretch
           icon="mdi-github"
           label="Github"
           type="a"
@@ -42,4 +52,5 @@
 <script lang="ts" setup>
 import DeviceStatusBadge from 'components/DeviceStatusBadge.vue';
 import DevicePresetEditor from 'components/editor/DevicePresetEditor.vue';
+import ToolbarRouterLink from 'components/ToolbarRouterLink.vue';
 </script>
