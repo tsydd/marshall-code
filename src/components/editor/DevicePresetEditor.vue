@@ -8,5 +8,5 @@ import { computed } from 'vue';
 import PresetEditor from 'components/editor/PresetEditor.vue';
 
 const store = useMarshallCodeStore();
-const currentPreset = computed(() => store.currentPreset);
+const currentPreset = computed(() => store.patch);
 </script>

@@ -12,6 +12,8 @@ import {
   ReverbType,
 } from 'marshall-code-api';
 import { LocalStorage } from 'quasar';
+import { PresetCompact } from 'src/api';
+import { presetFromArray } from 'marshall-code-api/lib/converters';
 
 interface State {
   connected: boolean;
@@ -19,7 +21,41 @@ interface State {
   bluetoothAddress?: string;
   bluetoothVersion?: string;
   ampPresets: Preset[];
-  currentPreset: Preset;
+  patch: Preset;
+  preset: DevicePreset | ServerPreset;
+}
+
+interface DevicePreset {
+  type: 'device';
+}
+
+const devicePresetInstance: DevicePreset = {
+  type: 'device',
+};
+
+export interface ServerPreset {
+  type: 'server';
+  id: number;
+  name: string;
+  artist?: string | null;
+  song?: string | null;
+  createdAt: Date;
+  patch: Preset;
+}
+
+export function parsePresets(presets: PresetCompact[]): ServerPreset[] {
+  return presets.map((preset) => {
+    const parsedPreset = presetFromArray(new Uint8Array(preset.patch));
+    return {
+      type: 'server',
+      id: preset.id,
+      name: preset.name,
+      artist: preset.artist,
+      song: preset.song,
+      createdAt: preset.createdAt,
+      patch: parsedPreset,
+    };
+  });
 }
 
 async function sleep(duration: number) {
@@ -35,7 +71,7 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
     bluetoothAddress: undefined,
     bluetoothVersion: undefined,
     ampPresets: LocalStorage.getItem('presets') ?? [],
-    currentPreset: {
+    patch: {
       gain: 0,
       bass: 0,
       middle: 0,
@@ -85,9 +121,18 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
       presence: 0,
       resonance: 0,
     },
+    preset: devicePresetInstance,
   }),
 
-  getters: {},
+  getters: {
+    currentDevicePresetNumber(state: State): number | undefined {
+      return state.preset.type === 'device' ? state.patch.number : undefined;
+    },
+    currentServerPresetId(state: State): number | undefined {
+      const preset = state.preset;
+      return preset.type === 'server' ? preset.id : undefined;
+    },
+  },
 
   actions: {
     async init() {
@@ -118,10 +163,11 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
         codeApi.requestCurrentPreset();
       };
       codeApi.onCurrentPresetReceived = (preset) => {
-        this.currentPreset = preset;
+        this.preset = devicePresetInstance;
+        this.patch = preset;
       };
       codeApi.onPresetModified = (changes: Partial<Preset>) => {
-        Object.assign(this.currentPreset, changes);
+        Object.assign(this.patch, changes);
       };
       codeApi.onPresetReceived = (preset) => {
         this.ampPresets[preset.number as number] = preset;
@@ -140,10 +186,16 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
 
     modifyPreset(changes: Partial<Preset>) {
       codeApi.modifyPreset(changes);
-      Object.assign(this.currentPreset, changes);
+      Object.assign(this.patch, changes);
     },
 
-    switchToPreset(number: number) {
+    switchToServerPreset(preset: ServerPreset) {
+      this.preset = preset;
+      this.patch = Object.assign({}, preset.patch);
+      codeApi.modifyPreset(preset.patch);
+    },
+
+    switchToDevicePreset(number: number) {
       codeApi.switchToPreset(number);
     },
   },

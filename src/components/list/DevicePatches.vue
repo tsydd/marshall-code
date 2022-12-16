@@ -6,7 +6,7 @@
       clickable
       :active="preset.number === currentPresetNumber"
       active-class="bg-blue-grey-2"
-      @click="() => switchToPreset(preset.number)"
+      @click="() => switchToDevicePreset(preset.number)"
     >
       <q-item-section avatar>
         <q-item-label>#{{ preset.number }}</q-item-label>
@@ -31,6 +31,6 @@ import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
 const store = useMarshallCodeStore();
 
 const presets = computed(() => store.ampPresets);
-const currentPresetNumber = computed(() => store.currentPreset.number);
-const switchToPreset = store.switchToPreset;
+const currentPresetNumber = computed(() => store.currentDevicePresetNumber);
+const switchToDevicePreset = store.switchToDevicePreset;
 </script>

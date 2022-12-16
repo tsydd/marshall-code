@@ -3,9 +3,10 @@
     <q-item
       v-for="preset in presets"
       :key="preset.id"
+      :active="currentPresetId === preset.id"
       clickable
       active-class="bg-blue-grey-2"
-      @click="() => store.modifyPreset(preset.parsedPatch)"
+      @click="() => store.switchToServerPreset(preset)"
     >
       <q-item-section avatar>
         <q-item-label>#{{ preset.id }}</q-item-label>
@@ -26,7 +27,7 @@
         </q-item-label>
       </q-item-section>
       <q-item-section>
-        <PresetDetailsCompact :model-value="preset.parsedPatch" />
+        <PresetDetailsCompact :model-value="preset.patch" />
       </q-item-section>
     </q-item>
   </q-list>
@@ -34,31 +35,24 @@
 
 <script lang="ts" setup async>
 import { presetApi } from 'src/api/clients';
-import { onMounted, ref } from 'vue';
-import { PresetCompact } from 'src/api';
+import { computed, onMounted, ref } from 'vue';
 import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
-import { Preset } from 'marshall-code-api';
-import { presetFromArray } from 'marshall-code-api/lib/converters';
-import { useMarshallCodeStore } from 'stores/marshallcode';
-
-interface ExtendedPresetListItem extends PresetCompact {
-  parsedPatch: Preset;
-}
+import {
+  ServerPreset,
+  parsePresets,
+  useMarshallCodeStore,
+} from 'stores/marshallcode';
 
 const store = useMarshallCodeStore();
 
-const presets = ref<ExtendedPresetListItem[]>([]);
+const presets = ref<ServerPreset[]>([]);
 
 async function updateFilter() {
   const presetsFromServer = await presetApi.findRecent();
-  presets.value = presetsFromServer.map((preset) => {
-    const parsedPreset = presetFromArray(new Uint8Array(preset.patch));
-    return Object.assign(
-      { parsedPatch: parsedPreset },
-      preset
-    ) as ExtendedPresetListItem;
-  });
+  presets.value = parsePresets(presetsFromServer);
 }
 
 onMounted(updateFilter);
+
+const currentPresetId = computed(() => store.currentServerPresetId);
 </script>
