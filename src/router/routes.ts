@@ -3,8 +3,25 @@ import { RouteRecordRaw } from 'vue-router';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    redirect: '/presets',
+  },
+  {
+    path: '/presets',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      {
+        path: '',
+        redirect: '/presets/device',
+      },
+      {
+        path: 'device',
+        component: () => import('pages/DevicePresetsPage.vue'),
+      },
+      {
+        path: 'db',
+        component: () => import('pages/PresetDatabasePage.vue'),
+      },
+    ],
   },
 
   // Always leave this as last one,
