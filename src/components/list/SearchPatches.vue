@@ -42,11 +42,8 @@
 import { presetApi } from 'src/api/clients';
 import { computed, onMounted, ref, watch } from 'vue';
 import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
-import {
-  ServerPreset,
-  parsePresets,
-  useMarshallCodeStore,
-} from 'stores/marshallcode';
+import { useMarshallCodeStore } from 'stores/marshallcode';
+import { parsePresets, ServerPreset } from 'stores/preset';
 
 const store = useMarshallCodeStore();
 

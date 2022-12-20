@@ -12,8 +12,11 @@ import {
   ReverbType,
 } from 'marshall-code-api';
 import { LocalStorage } from 'quasar';
-import { PresetCompact } from 'src/api';
-import { presetFromArray } from 'marshall-code-api/lib/converters';
+import {
+  DevicePreset,
+  devicePresetInstance,
+  ServerPreset,
+} from 'stores/preset';
 
 interface State {
   connected: boolean;
@@ -23,39 +26,6 @@ interface State {
   ampPresets: Preset[];
   patch: Preset;
   preset: DevicePreset | ServerPreset;
-}
-
-interface DevicePreset {
-  type: 'device';
-}
-
-const devicePresetInstance: DevicePreset = {
-  type: 'device',
-};
-
-export interface ServerPreset {
-  type: 'server';
-  id: number;
-  name: string;
-  artist?: string | null;
-  song?: string | null;
-  createdAt: Date;
-  patch: Preset;
-}
-
-export function parsePresets(presets: PresetCompact[]): ServerPreset[] {
-  return presets.map((preset) => {
-    const parsedPreset = presetFromArray(new Uint8Array(preset.patch));
-    return {
-      type: 'server',
-      id: preset.id,
-      name: preset.name,
-      artist: preset.artist,
-      song: preset.song,
-      createdAt: preset.createdAt,
-      patch: parsedPreset,
-    };
-  });
 }
 
 async function sleep(duration: number) {
