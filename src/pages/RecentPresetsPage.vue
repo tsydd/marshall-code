@@ -8,5 +8,5 @@
 </template>
 
 <script lang="ts" setup>
-import RecentPatches from 'components/list/RecentPatches.vue';
+import RecentPatches from 'components/list/RecentPresets.vue';
 </script>

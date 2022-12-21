@@ -1,14 +1,14 @@
 <template>
   <q-list bordered separator>
     <q-item
-      v-for="preset in presets"
+      v-for="preset in modelValue"
       :key="preset.id"
       :active="currentPresetId === preset.id"
       clickable
       active-class="bg-blue-grey-2"
       @click="() => store.switchToServerPreset(preset)"
     >
-      <q-item-section avatar>
+      <q-item-section avatar class="id-column">
         <q-item-label>#{{ preset.id }}</q-item-label>
         <FavoritePresetButton :model-value="preset"></FavoritePresetButton>
       </q-item-section>
@@ -34,24 +34,26 @@
   </q-list>
 </template>
 
-<script lang="ts" setup async>
-import { presetApi } from 'src/api/clients';
-import { computed, onMounted, ref } from 'vue';
+<script lang="ts" setup>
+import { computed, PropType } from 'vue';
+import { ServerPreset } from 'stores/preset';
 import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
-import { useMarshallCodeStore } from 'stores/marshallcode';
-import { parsePresets, ServerPreset } from 'stores/preset';
 import FavoritePresetButton from 'components/FavoritePresetButton.vue';
+import { useMarshallCodeStore } from 'stores/marshallcode';
 
 const store = useMarshallCodeStore();
-
-const presets = ref<ServerPreset[]>([]);
-
-async function updateFilter() {
-  const presetsFromServer = await presetApi.findRecent();
-  presets.value = parsePresets(presetsFromServer);
-}
-
-onMounted(updateFilter);
-
 const currentPresetId = computed(() => store.currentServerPresetId);
+
+defineProps({
+  modelValue: {
+    type: Object as PropType<ServerPreset[]>,
+    required: true,
+  },
+});
 </script>
+
+<style scoped>
+.id-column {
+  width: 60px;
+}
+</style>
