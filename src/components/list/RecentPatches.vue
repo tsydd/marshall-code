@@ -10,6 +10,7 @@
     >
       <q-item-section avatar>
         <q-item-label>#{{ preset.id }}</q-item-label>
+        <FavoritePresetButton :model-value="preset"></FavoritePresetButton>
       </q-item-section>
       <q-item-section class="col">
         <q-item-label>
@@ -39,6 +40,7 @@ import { computed, onMounted, ref } from 'vue';
 import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
 import { useMarshallCodeStore } from 'stores/marshallcode';
 import { parsePresets, ServerPreset } from 'stores/preset';
+import FavoritePresetButton from 'components/FavoritePresetButton.vue';
 
 const store = useMarshallCodeStore();
 
