@@ -5,6 +5,7 @@
         <ToolbarRouterLink label="Device" :to="{ name: 'devicePresets' }" />
         <ToolbarRouterLink label="Search" :to="{ name: 'searchPresets' }" />
         <ToolbarRouterLink label="Recent" :to="{ name: 'recentPresets' }" />
+        <ToolbarRouterLink label="Favorite" :to="{ name: 'favoritePresets' }" />
       </q-toolbar>
     </q-header>
 

@@ -28,6 +28,11 @@ const routes: RouteRecordRaw[] = [
         path: 'recent',
         component: () => import('pages/RecentPresetsPage.vue'),
       },
+      {
+        name: 'favoritePresets',
+        path: 'favorite',
+        component: () => import('pages/FavoritePresetsPage.vue'),
+      },
     ],
   },
 
