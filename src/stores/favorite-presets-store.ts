@@ -1,13 +1,16 @@
 import { ServerPreset } from 'stores/preset';
 import { defineStore } from 'pinia';
+import { LocalStorage } from 'quasar';
 
 interface State {
   presets: Record<number, ServerPreset>;
 }
 
-export const userFavoritePresetsStore = defineStore('favoritePresets', {
+const localStorageKey = 'favoritePresets';
+
+export const useFavoritePresetsStore = defineStore('favoritePresets', {
   state: (): State => ({
-    presets: {},
+    presets: LocalStorage.getItem(localStorageKey) || {},
   }),
 
   actions: {
@@ -30,4 +33,8 @@ export const userFavoritePresetsStore = defineStore('favoritePresets', {
       return (id: number) => state.presets.hasOwnProperty(id);
     },
   },
+});
+
+useFavoritePresetsStore().$subscribe((mutation, { presets }) => {
+  LocalStorage.set(localStorageKey, presets);
 });

@@ -15,9 +15,9 @@
 <script lang="ts" setup>
 import { PropType } from 'vue';
 import { ServerPreset } from 'stores/preset';
-import { userFavoritePresetsStore } from 'stores/favorite-presets-store';
+import { useFavoritePresetsStore } from 'stores/favorite-presets-store';
 
-const favoritePresetStore = userFavoritePresetsStore();
+const favoritePresetStore = useFavoritePresetsStore();
 defineProps({
   modelValue: {
     type: Object as PropType<ServerPreset>,
