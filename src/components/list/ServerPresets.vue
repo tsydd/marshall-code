@@ -1,59 +1,61 @@
 <template>
-  <q-list bordered separator>
+  <q-virtual-scroll
+    bordered
+    separator
+    style="max-height: 800px"
+    :items="modelValue"
+    :virtual-scroll-slice-size="3"
+    v-slot="{ item }: { item: MyMarshallComPreset | MarshallCodeToolsPreset }"
+  >
     <q-item
-      v-for="preset in modelValue"
-      :key="preset.id"
-      :active="currentPresetId === preset.id"
+      :key="item.id"
+      :active="preset.type === item.type && preset.id === item.id"
       clickable
       active-class="bg-blue-grey-2"
-      @click="() => store.switchToServerPreset(preset)"
+      @click="() => store.switchToServerPreset(item)"
     >
-      <q-item-section avatar class="id-column">
-        <q-item-label>#{{ preset.id }}</q-item-label>
-        <FavoritePresetButton :model-value="preset"></FavoritePresetButton>
-      </q-item-section>
-      <q-item-section class="col">
-        <q-item-label>
-          {{ preset.name }}
+      <q-item-section>
+        <q-item-label v-if="item.type === 'MY_MARSHALL_COM'">
+          Name:
+          <a :href="`https://my.marshall.com/presets/details/${item.id}`">{{
+            item.name
+          }}</a>
         </q-item-label>
-      </q-item-section>
-      <q-item-section class="col">
-        <q-item-label>
-          {{ preset.artist }}
+        <q-item-label v-if="item.type === 'MARSHALL_CODE_TOOLS'">
+          Name:
+          <a :href="`https://marshallcode.tools/${item.url}`">{{
+            item.song
+          }}</a>
         </q-item-label>
-      </q-item-section>
-      <q-item-section class="col">
-        <q-item-label>
-          {{ preset.song }}
+        <q-item-label v-if="item.artist">
+          Artist: {{ item.artist }}
+        </q-item-label>
+        <q-item-label v-if="item.type === 'MY_MARSHALL_COM' && item.song">
+          Song: {{ item.song }}
         </q-item-label>
       </q-item-section>
       <q-item-section>
-        <PresetDetailsCompact :model-value="preset.patch" />
+        <PresetDetailsCompact :model-value="item.patch" />
       </q-item-section>
     </q-item>
-  </q-list>
+  </q-virtual-scroll>
 </template>
 
 <script lang="ts" setup>
 import { computed, PropType } from 'vue';
-import { ServerPreset } from 'stores/preset';
+import { MarshallCodeToolsPreset, MyMarshallComPreset } from 'stores/preset';
 import PresetDetailsCompact from 'components/list/PresetDetailsCompact.vue';
-import FavoritePresetButton from 'components/FavoritePresetButton.vue';
 import { useMarshallCodeStore } from 'stores/marshallcode';
 
 const store = useMarshallCodeStore();
-const currentPresetId = computed(() => store.currentServerPresetId);
+const preset = computed(() => store.preset);
 
 defineProps({
   modelValue: {
-    type: Object as PropType<ServerPreset[]>,
+    type: Object as PropType<
+      Array<MyMarshallComPreset | MarshallCodeToolsPreset>
+    >,
     required: true,
   },
 });
 </script>
-
-<style scoped>
-.id-column {
-  width: 60px;
-}
-</style>

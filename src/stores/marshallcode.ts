@@ -15,8 +15,13 @@ import { LocalStorage } from 'quasar';
 import {
   DevicePreset,
   devicePresetInstance,
-  ServerPreset,
+  MarshallCodeToolsPreset,
+  MyMarshallComPreset,
 } from 'stores/preset';
+import {
+  loadMarshallCodeToolsPresets,
+  loadMyMarshallCodePresets,
+} from 'stores/serverPresets';
 
 interface State {
   connected: boolean;
@@ -24,8 +29,10 @@ interface State {
   bluetoothAddress?: string;
   bluetoothVersion?: string;
   ampPresets: Preset[];
+  myMarshallCodePresets: MyMarshallComPreset[];
+  marshallCodeToolsPresets: MarshallCodeToolsPreset[];
   patch: Preset;
-  preset: DevicePreset | ServerPreset;
+  preset: DevicePreset | MyMarshallComPreset | MarshallCodeToolsPreset;
 }
 
 async function sleep(duration: number) {
@@ -41,6 +48,8 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
     bluetoothAddress: undefined,
     bluetoothVersion: undefined,
     ampPresets: LocalStorage.getItem('presets') ?? [],
+    myMarshallCodePresets: [],
+    marshallCodeToolsPresets: [],
     patch: {
       gain: 0,
       bass: 0,
@@ -100,14 +109,20 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
     },
     currentServerPresetId(state: State): number | undefined {
       const preset = state.preset;
-      return preset.type === 'server' ? preset.id : undefined;
+      return preset.type === 'MY_MARSHALL_COM' ? preset.id : undefined;
     },
   },
 
   actions: {
     async init() {
+      loadMyMarshallCodePresets().then((presets) => {
+        this.myMarshallCodePresets = presets;
+      });
+      loadMarshallCodeToolsPresets().then((presets) => {
+        this.marshallCodeToolsPresets = presets;
+      });
       const storePresets = this.ampPresets;
-      codeApi.debug = true;
+      codeApi.debug = false;
       codeApi.onConnected = async (connected) => {
         this.connected = connected;
         if (connected) {
@@ -159,7 +174,9 @@ export const useMarshallCodeStore = defineStore('marshallCode', {
       Object.assign(this.patch, changes);
     },
 
-    switchToServerPreset(preset: ServerPreset) {
+    switchToServerPreset(
+      preset: MyMarshallComPreset | MarshallCodeToolsPreset
+    ) {
       this.preset = preset;
       this.patch = Object.assign({}, preset.patch);
       codeApi.modifyPreset(preset.patch);

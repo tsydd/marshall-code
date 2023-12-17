@@ -10,13 +10,14 @@
     "build": "quasar build",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0",
-    "build:api:yaml": "openapi-generator-cli generate"
+    "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.6.5",
-    "marshall-code-api": "0.5.12",
+    "csv-parse": "^5.5.3",
+    "lodash": "^4.17.21",
+    "marshall-code-api": "0.5.13",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
@@ -24,8 +25,8 @@
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.5.1",
     "@quasar/app-webpack": "^3.0.0",
+    "@types/lodash": "^4.14.202",
     "@types/node": "^12.20.21",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",

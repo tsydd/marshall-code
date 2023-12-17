@@ -1,4 +1,3 @@
-import { PresetCompact } from 'src/api';
 import { presetFromArray } from 'marshall-code-api/lib/converters';
 import { Preset } from 'marshall-code-api';
 
@@ -12,25 +11,38 @@ export const devicePresetInstance: DevicePreset = {
 
 export interface ServerPreset {
   type: 'server';
+  createdAt: Date;
   id: number;
   name: string;
   artist?: string | null;
   song?: string | null;
-  createdAt: Date;
   patch: Preset;
 }
 
-export function parsePresets(presets: PresetCompact[]): ServerPreset[] {
-  return presets.map((preset) => {
-    const parsedPreset = presetFromArray(new Uint8Array(preset.patch));
-    return {
-      type: 'server',
-      id: preset.id,
-      name: preset.name,
-      artist: preset.artist,
-      song: preset.song,
-      createdAt: preset.createdAt,
-      patch: parsedPreset,
-    };
-  });
+export interface MyMarshallComPreset {
+  type: 'MY_MARSHALL_COM';
+  createdAt: Date;
+  id: number;
+  name: string;
+  artist?: string | null;
+  song?: string | null;
+  patch: Preset;
+}
+
+export interface MarshallCodeToolsPreset {
+  type: 'MARSHALL_CODE_TOOLS';
+  createdAt: Date;
+  id: number;
+  artist: string | null;
+  song: string | null;
+  url: string;
+  patch: Preset;
+}
+
+export function parseBase64Patch(patchBase64: string): Preset {
+  const bytesString = atob(patchBase64);
+  const bytes = new Uint8Array(
+    Array.from(bytesString, (ch) => ch.charCodeAt(0))
+  );
+  return presetFromArray(bytes);
 }

@@ -23,16 +23,6 @@ const routes: RouteRecordRaw[] = [
         path: 'search',
         component: () => import('pages/SearchPresetsPage.vue'),
       },
-      {
-        name: 'recentPresets',
-        path: 'recent',
-        component: () => import('pages/RecentPresetsPage.vue'),
-      },
-      {
-        name: 'favoritePresets',
-        path: 'favorite',
-        component: () => import('pages/FavoritePresetsPage.vue'),
-      },
     ],
   },
 
