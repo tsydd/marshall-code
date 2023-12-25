@@ -6,12 +6,12 @@
       clickable
       :active="preset.number === currentPresetNumber"
       active-class="bg-blue-grey-2"
-      @click="() => switchToDevicePreset(preset.number)"
+      @click="() => switchToDevicePreset(preset.number!)"
     >
-      <q-item-section avatar>
+      <q-item-section class="number-column">
         <q-item-label>#{{ preset.number }}</q-item-label>
       </q-item-section>
-      <q-item-section class="col-2">
+      <q-item-section class="name-column">
         <q-item-label>
           {{ preset.name }}
         </q-item-label>
@@ -34,3 +34,13 @@ const presets = computed(() => store.ampPresets);
 const currentPresetNumber = computed(() => store.currentDevicePresetNumber);
 const switchToDevicePreset = store.switchToDevicePreset;
 </script>
+
+<style scoped>
+.number-column {
+  flex: 25px;
+}
+
+.name-column {
+  flex: 275px;
+}
+</style>

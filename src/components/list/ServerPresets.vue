@@ -4,7 +4,6 @@
     separator
     style="max-height: 800px"
     :items="modelValue"
-    :virtual-scroll-slice-size="3"
     v-slot="{ item }: { item: MyMarshallComPreset | MarshallCodeToolsPreset }"
   >
     <q-item
@@ -14,24 +13,28 @@
       active-class="bg-blue-grey-2"
       @click="() => store.switchToServerPreset(item)"
     >
-      <q-item-section>
+      <q-item-section class="description-column">
         <q-item-label v-if="item.type === 'MY_MARSHALL_COM'">
-          Name:
-          <a :href="`https://my.marshall.com/presets/details/${item.id}`">{{
-            item.name
-          }}</a>
+          <a
+            :href="`https://my.marshall.com/presets/details/${item.id}`"
+            target="_blank"
+            class="text-weight-medium"
+            >{{ item.name }}</a
+          >
         </q-item-label>
         <q-item-label v-if="item.type === 'MARSHALL_CODE_TOOLS'">
-          Name:
-          <a :href="`https://marshallcode.tools/${item.url}`">{{
-            item.song
-          }}</a>
+          <a
+            :href="`https://marshallcode.tools/${item.url}`"
+            target="_blank"
+            class="text-weight-medium"
+            >{{ item.song }}</a
+          >
         </q-item-label>
         <q-item-label v-if="item.artist">
-          Artist: {{ item.artist }}
+          Artist: <span class="text-weight-medium">{{ item.artist }}</span>
         </q-item-label>
         <q-item-label v-if="item.type === 'MY_MARSHALL_COM' && item.song">
-          Song: {{ item.song }}
+          Song: <span class="text-weight-medium">{{ item.song }}</span>
         </q-item-label>
       </q-item-section>
       <q-item-section>
@@ -59,3 +62,9 @@ defineProps({
   },
 });
 </script>
+
+<style scoped>
+.description-column {
+  flex: 300px;
+}
+</style>
