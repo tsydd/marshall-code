@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <DevicePresets />
+    <FavoritePresets />
     <q-page-scroller :scroll-offset="150">
       <q-btn fab icon="keyboard_arrow_up" color="primary" />
     </q-page-scroller>
@@ -8,5 +8,5 @@
 </template>
 
 <script lang="ts" setup>
-import DevicePresets from 'components/list/DevicePresets.vue';
+import FavoritePresets from 'components/list/FavoritePresets.vue';
 </script>

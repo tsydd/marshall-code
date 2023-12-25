@@ -9,23 +9,13 @@ export const devicePresetInstance: DevicePreset = {
   type: 'device',
 };
 
-export interface ServerPreset {
-  type: 'server';
-  createdAt: Date;
-  id: number;
-  name: string;
-  artist?: string | null;
-  song?: string | null;
-  patch: Preset;
-}
-
 export interface MyMarshallComPreset {
   type: 'MY_MARSHALL_COM';
   createdAt: Date;
   id: number;
   name: string;
   artist?: string | null;
-  song?: string | null;
+  track?: string | null;
   patch: Preset;
 }
 
@@ -34,10 +24,12 @@ export interface MarshallCodeToolsPreset {
   createdAt: Date;
   id: number;
   artist: string | null;
-  song: string | null;
+  track: string | null;
   url: string;
   patch: Preset;
 }
+
+export type ServerPreset = MyMarshallComPreset | MarshallCodeToolsPreset;
 
 export function parseBase64Patch(patchBase64: string): Preset {
   const bytesString = atob(patchBase64);

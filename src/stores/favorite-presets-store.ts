@@ -3,10 +3,14 @@ import { defineStore } from 'pinia';
 import { LocalStorage } from 'quasar';
 
 interface State {
-  presets: Record<number, ServerPreset>;
+  presets: Record<string, ServerPreset>;
 }
 
 const localStorageKey = 'favoritePresets';
+
+function getPresetKey(preset: ServerPreset): string {
+  return `${preset.type}-${preset.id}`;
+}
 
 export const useFavoritePresetsStore = defineStore('favoritePresets', {
   state: (): State => ({
@@ -15,13 +19,14 @@ export const useFavoritePresetsStore = defineStore('favoritePresets', {
 
   actions: {
     toggleFavorite(preset: ServerPreset) {
-      if (this.presets.hasOwnProperty(preset.id)) {
+      const key = getPresetKey(preset);
+      if (this.presets.hasOwnProperty(key)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { [preset.id]: _, ...presets } = this.presets;
+        const { [key]: _, ...presets } = this.presets;
         this.presets = presets;
       } else {
         this.presets = {
-          [preset.id]: preset,
+          [key]: preset,
           ...this.presets,
         };
       }
@@ -29,8 +34,9 @@ export const useFavoritePresetsStore = defineStore('favoritePresets', {
   },
 
   getters: {
-    isFavorite(state: State): (id: number) => boolean {
-      return (id: number) => state.presets.hasOwnProperty(id);
+    isFavorite(state: State): (preset: ServerPreset) => boolean {
+      return (preset: ServerPreset) =>
+        state.presets.hasOwnProperty(getPresetKey(preset));
     },
   },
 });

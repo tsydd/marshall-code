@@ -10,7 +10,7 @@ interface MyMarshallCodePresetCsv {
   updatedAt: string;
   name: string;
   artist?: string;
-  song?: string;
+  track?: string;
   patch: string;
 }
 
@@ -18,7 +18,7 @@ interface MarshallCodeToolsPresetCsv {
   id: number;
   updatedAt: string;
   artist: string;
-  song: string;
+  track: string;
   url: string;
   patch: string;
 }
@@ -38,7 +38,7 @@ function toMyMarshallComPreset(
     artist: csvPreset.artist,
     createdAt: new Date(Date.parse(csvPreset.updatedAt)),
     patch: parseBase64Patch(csvPreset.patch),
-    song: csvPreset.song,
+    track: csvPreset.track,
   };
 }
 
@@ -50,7 +50,7 @@ function toMarshallCodeToolsPreset(
     type: 'MARSHALL_CODE_TOOLS',
     createdAt: new Date(Date.parse(csvPreset.updatedAt)),
     artist: csvPreset.artist,
-    song: csvPreset.song,
+    track: csvPreset.track,
     url: csvPreset.url,
     patch: parseBase64Patch(csvPreset.patch),
   };
@@ -63,7 +63,7 @@ async function parseMyMarshallCodeCsv(
     parse(
       csvContent,
       {
-        columns: ['id', 'updatedAt', 'name', 'artist', 'song', 'patch'],
+        columns: ['id', 'updatedAt', 'name', 'artist', 'track', 'patch'],
       },
       (err, records) => {
         if (err) {
@@ -82,7 +82,7 @@ async function parseMarshallCodeToolsCsv(
     parse(
       csvContent,
       {
-        columns: ['id', 'updatedAt', 'artist', 'song', 'url', 'patch'],
+        columns: ['id', 'updatedAt', 'artist', 'track', 'url', 'patch'],
       },
       (err, records) => {
         if (err) {

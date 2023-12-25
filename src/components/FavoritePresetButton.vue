@@ -4,7 +4,7 @@
     dense
     flat
     :icon="
-      favoritePresetStore.isFavorite(modelValue.id)
+      favoritePresetStore.isFavorite(modelValue)
         ? 'mdi-star'
         : 'mdi-star-outline'
     "
