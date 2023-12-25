@@ -1,3 +1,3 @@
-Marshall CODE tools
+Presets' database for Marshall CODE
 
-https://marshallcode.tsyd.by
+https://tsydd.github.io/marshall-code/#/presets/search
